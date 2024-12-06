@@ -37,7 +37,8 @@
 
   .error-message {
     color: #f87171;
-    text-align: center;
+    font-size: 15px;
+    margin: 0 0 3px;
   }
 
   div {
