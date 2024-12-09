@@ -11,8 +11,20 @@ export default function LoginForm() {
     password: "",
   });
 
+  const [dataErrorMessage, setDataErrorMessage] = useState({
+    show: false,
+    text: "",
+  });
+
   async function handleLogin(e) {
     e.preventDefault();
+
+    setDataErrorMessage((prevValues) => {
+      return {
+        ...prevValues,
+        text: "",
+      };
+    });
 
     if (email && email.length && email.match(isValidEmail)) {
       setShowErrorMessages((prevValues) => {
@@ -48,35 +60,39 @@ export default function LoginForm() {
 
     if (email && email.length && email.match(isValidEmail) && password) {
       try {
+        console.log("try");
+
         const response = await axios.post(
           `https://dummy-api.d0.acom.cloud/api/auth/login?email=${email}&password=${password}`
         );
+        console.log("response");
+        console.log(response);
+
+        console.log("access_token");
+        console.log(response.data.access_token);
+
         localStorage.setItem("access_token", response.data.access_token);
       } catch (error) {
-        console.log("error");
         console.log(error);
-        // console.log(error.response.data);
+        let errorMessage;
 
-        // console.log(error.response.data.password);
-        // console.log(error.response.data.password !== undefined);
+        if (error.response) {
+          if (error.response.data.password !== undefined) {
+            errorMessage = error.response.data.password[0];
+          } else if (error.response.data.error !== undefined) {
+            errorMessage = error.response.data.error;
+          }
+        } else {
+          errorMessage = "Internal server error. Please try again later";
+        }
 
-        // console.log(dataErrorMessage);
-
-        // let errorMessage;
-
-        // if (error.response.data.password !== undefined) {
-        //   errorMessage = error.response.data.password[0];
-        // } else if (error.response.data.error !== undefined) {
-        //   errorMessage = error.response.data.error;
-        // }
-
-        // setDataErrorMessage((prevValues) => {
-        //   return {
-        //     ...prevValues,
-        //     show: true,
-        //     text: errorMessage,
-        //   };
-        // });
+        setDataErrorMessage((prevValues) => {
+          return {
+            ...prevValues,
+            show: true,
+            text: errorMessage,
+          };
+        });
       }
     }
   }
@@ -84,20 +100,11 @@ export default function LoginForm() {
   return (
     <div className="login-form">
       <h1>Login</h1>
-      email: {email}
-      <br></br>
-      passwod: {password}
-      <br></br>
-      showErrorMessages.email error:
-      {showErrorMessages.email ? "true" : "false"} <br></br>
-      showErrorMessages.password error:
-      {showErrorMessages.password ? "true" : "false"}
-      <br></br>
       <form onSubmit={handleLogin}>
         <div>
           <label htmlFor="email">Username</label>
           <input
-            // type="email"
+            type="email"
             id="email"
             onChange={(e) => setEmail(e.target.value)}
           ></input>
@@ -110,7 +117,7 @@ export default function LoginForm() {
         <div>
           <label htmlFor="password">Password</label>
           <input
-            // type="password"
+            type="password"
             id="password"
             onChange={(e) => setPassword(e.target.value)}
           ></input>
@@ -120,11 +127,11 @@ export default function LoginForm() {
             ""
           )}
         </div>
-        {/* {dataErrorMessage.show ? (
+        {dataErrorMessage.show ? (
           <p className="error-message">{dataErrorMessage.text}</p>
         ) : (
           ""
-        )} */}
+        )}
         <button>Sign In</button>
       </form>
     </div>
