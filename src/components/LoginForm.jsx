@@ -3,7 +3,7 @@ import axios from "axios";
 
 const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,10}$/g;
 
-export default function LoginForm() {
+export default function LoginForm({ accessToken, setAccessToken }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showErrorMessages, setShowErrorMessages] = useState({
@@ -60,22 +60,26 @@ export default function LoginForm() {
 
     if (email && email.length && email.match(isValidEmail) && password) {
       try {
-        console.log("try");
+        // console.log("try");
 
         const response = await axios.post(
           `https://dummy-api.d0.acom.cloud/api/auth/login?email=${email}&password=${password}`
         );
-        console.log("response");
-        console.log(response);
+        // console.log("response");
+        // console.log(response);
 
-        console.log("access_token");
-        console.log(response.data.access_token);
+        // console.log("access_token");
+        // console.log(response.data.access_token);
+
+        setAccessToken(response.data.access_token);
 
         localStorage.setItem("access_token", response.data.access_token);
+
+
       } catch (error) {
         console.log(error);
-        let errorMessage;
 
+        let errorMessage;
         if (error.response) {
           if (error.response.data.password !== undefined) {
             errorMessage = error.response.data.password[0];
@@ -99,7 +103,7 @@ export default function LoginForm() {
 
   return (
     <div className="login-form">
-      <h1>Login</h1>
+      <h1>Sign Up Here</h1>
       <form onSubmit={handleLogin}>
         <div>
           <label htmlFor="email">Username</label>

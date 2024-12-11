@@ -1,5 +1,4 @@
 .App {
-
   header,
   main {
     background-color: #282c34;
@@ -21,6 +20,12 @@
 
   a {
     color: #61dafb;
+  }
+
+  .access-token {
+    font-size: 10px;
+    word-break: break-all;
+    max-width: 300px;
   }
 }
 
