@@ -2,13 +2,11 @@ import "./App.css";
 
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
 
 import HomePage from "./components/HomePage";
 import Dashboard from "./components/Dashboard";
 import UserInfo from "./components/UserInfo";
 
-const API_URL = "https://dummy-api.d0.acom.cloud/api/auth/";
 
 function App() {
   const [accessToken, setAccessToken] = useState();
@@ -18,36 +16,6 @@ function App() {
     email: "",
     profileImage: "",
   });
-
-  async function getInfo() {
-    console.log("getInfo");
-
-    try {
-      axios
-        .get(`${API_URL}user-profile`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((response) => {
-          console.log("Data:", response.data);
-
-          setUser(() => {
-            return {
-              login: true,
-              name: response.data.name,
-              email: response.data.email,
-              profileImage: response.data.profile_image,
-            };
-          });
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   return (
     <div className="App">
@@ -86,8 +54,9 @@ function App() {
                 element={
                   <HomePage
                     setAccessToken={setAccessToken}
-                    apiUrl={API_URL}
-                    getInfo={() => getInfo()}
+                    setUser={setUser}
+                    // apiUrl={API_URL}
+                    // getInfo={() => getInfo()}
                   />
                 }
               />
