@@ -3,7 +3,7 @@ import axios from "axios";
 
 const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,10}$/g;
 
-export default function LoginForm({ setAccessToken, apiUrl }) {
+export default function LoginForm({ setAccessToken, apiUrl, getInfo}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showErrorMessages, setShowErrorMessages] = useState({
@@ -64,6 +64,7 @@ export default function LoginForm({ setAccessToken, apiUrl }) {
         .then((response) => {
           console.log("Data:", response.data);
           setAccessToken(response.data.access_token);
+          getInfo();
         })
         .catch((error) => {
           console.error("Error:", error);

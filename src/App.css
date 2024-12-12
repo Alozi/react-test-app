@@ -2,7 +2,8 @@
   background-color: #282c34;
 
   header,
-  main {
+  main,
+  footer {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -12,7 +13,7 @@
   }
 
   header {
-    min-height: 20vh;
+    min-height: 10vh;
     border-bottom: 1px solid rgba(97, 218, 251, 0.5);
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -21,6 +22,12 @@
 
   main {
     min-height: 80vh;
+  }
+
+  footer {
+    margin-top: 20px;
+    border-top: 1px solid rgba(97, 218, 251, 0.5);
+    min-height: 10vh;
   }
 
   a {
@@ -90,5 +97,27 @@
       cursor: pointer;
       background-color: #f0920e;
     }
+  }
+}
+
+.user-profile {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  align-items: center;
+
+  img {
+    height: 50px;
+  }
+
+  p {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .icon {
+    height: 20px;
   }
 }
