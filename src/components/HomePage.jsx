@@ -1,10 +1,10 @@
 import LoginForm from "./LoginForm";
 
-export default function HomePage({ accessToken, setAccessToken }) {
+export default function HomePage({ setAccessToken, apiUrl }) {
   return (
     <>
       <h2>Home</h2>
-      <LoginForm accessToken={accessToken} setAccessToken={setAccessToken} />
+      <LoginForm setAccessToken={setAccessToken} apiUrl={apiUrl} />
     </>
   );
 }

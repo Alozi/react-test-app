@@ -1,28 +1,45 @@
-// import logo from "./logo.svg";
 import "./App.css";
+
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 
 import HomePage from "./components/HomePage";
 import Dashboard from "./components/Dashboard";
 
+const API_URL = "https://dummy-api.d0.acom.cloud/api/auth/";
+
 function App() {
   const [accessToken, setAccessToken] = useState();
 
-  console.log("accessToken");
-  console.log(accessToken);
+  async function getInfo() {
+    console.log("getInfo");
 
-  // console.log("response2");
-  // const response2 = await axios.get(
-  //   `https://dummy-api.d0.acom.cloud/api/auth/user-profile`
-  // );
-  // console.log(response2);
+    try {
+      axios
+        .get(`${API_URL}user-profile`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((response) => {
+          console.log("Data:", response.data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  if (accessToken) {
+    getInfo();
+  }
 
   return (
     <div className="App">
       <header>
-        <p className="access-token">accessToken: {accessToken}</p>
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
         <p>
           Victoria Bogustka React Test App{" "}
           <a
@@ -35,6 +52,8 @@ function App() {
         </p>
       </header>
       <main>
+        <p className="access-token">accessToken: {accessToken}</p>
+
         <Router>
           <div>
             <nav>
@@ -52,10 +71,7 @@ function App() {
               <Route
                 path="/"
                 element={
-                  <HomePage
-                    accessToken={accessToken}
-                    setAccessToken={setAccessToken}
-                  />
+                  <HomePage setAccessToken={setAccessToken} apiUrl={API_URL} />
                 }
               />
               <Route
