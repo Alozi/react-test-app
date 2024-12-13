@@ -1,7 +1,15 @@
 import iconProfile from "../profile-icon.svg";
-import iconEmail from "../profile-email.svg";
+import iconEmail from "../email-icon.svg";
+import iconLogout from "../logout-icon.svg";
 
-export default function UserInfo({ name, email, image }) {
+import { userLogout } from "../server.js";
+
+export default function UserInfo({ accessToken, setUser, name, email, image }) {
+  function handleClick() {
+    console.log("test");
+    userLogout(accessToken, setUser);
+  }
+
   return (
     <div className="user-profile">
       <img src={image} alt="User" />
@@ -15,6 +23,9 @@ export default function UserInfo({ name, email, image }) {
           {email}
         </p>
       </div>
+      <button onClick={handleClick}>
+        Logout <img className="icon" src={iconLogout} alt="Logout icon" />
+      </button>
     </div>
   );
 }

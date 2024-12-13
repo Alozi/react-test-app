@@ -63,3 +63,31 @@ export async function getUserInfo(accessToken, setUser) {
         console.log(error);
     }
 }
+
+export async function userLogout(accessToken, setUser) {
+    console.log("userLogout");
+    console.log(accessToken);
+
+    axios
+        .post(`${API_URL}logout`, {}, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        })
+        .then((response) => {
+            console.log("Data:", response.data);
+
+            setUser(() => {
+                return {
+                    login: false,
+                    name: '',
+                    email: '',
+                    profileImage: '',
+                };
+            });
+        })
+
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+}

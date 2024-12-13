@@ -101,8 +101,7 @@
 }
 
 .user-profile {
-  display: grid;
-  grid-template-columns: auto 1fr;
+  display: flex;
   gap: 20px;
   align-items: center;
 
@@ -119,5 +118,17 @@
 
   .icon {
     height: 20px;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: transparent;
+    border: 1px solid rgba(97, 218, 251, 0.5);
+    border-radius: 5px;
+    color: #fff;
+    padding: 5px;
+    cursor: pointer;
   }
 }

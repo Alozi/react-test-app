@@ -7,7 +7,6 @@ import HomePage from "./components/HomePage";
 import Dashboard from "./components/Dashboard";
 import UserInfo from "./components/UserInfo";
 
-
 function App() {
   const [accessToken, setAccessToken] = useState();
   const [user, setUser] = useState({
@@ -22,6 +21,8 @@ function App() {
       <header>
         {user.login ? (
           <UserInfo
+            accessToken={accessToken}
+            setUser={setUser}
             name={user.name}
             email={user.email}
             image={user.profileImage}
@@ -31,7 +32,7 @@ function App() {
         )}
 
         <p className="access-token">
-          accessToken: {accessToken} | user {user.login ? 'true' : 'false'}
+          accessToken: {accessToken} | user {user.login ? "true" : "false"}
         </p>
       </header>
       <main>
