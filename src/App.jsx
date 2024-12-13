@@ -1,9 +1,8 @@
 import "./App.css";
 
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { useState } from "react";
 
-import HomePage from "./components/HomePage";
+import LoginForm from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
 import UserInfo from "./components/UserInfo";
 
@@ -30,44 +29,16 @@ function App() {
         ) : (
           <div>Please, login.</div>
         )}
-
         <p className="access-token">
-          accessToken: {accessToken} | user {user.login ? "true" : "false"}
+          accessToken: {accessToken}
         </p>
       </header>
       <main>
-        <Router>
-          <div>
-            <nav>
-              <ul>
-                <li>
-                  <Link to="/">HomePage</Link>
-                </li>
-                <li>
-                  <Link to="/dashboard">Dashboard</Link>
-                </li>
-              </ul>
-            </nav>
-
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <HomePage
-                    setAccessToken={setAccessToken}
-                    setUser={setUser}
-                    // apiUrl={API_URL}
-                    // getInfo={() => getInfo()}
-                  />
-                }
-              />
-              <Route
-                path="/dashboard"
-                element={<Dashboard accessToken={accessToken} />}
-              />
-            </Routes>
-          </div>
-        </Router>
+        {user.login ? (
+          <Dashboard accessToken={accessToken} />
+        ) : (
+          <LoginForm setAccessToken={setAccessToken} setUser={setUser} />
+        )}
       </main>
       <footer>
         <p>
