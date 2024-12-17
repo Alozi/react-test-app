@@ -3,7 +3,7 @@ import { userLogin, getUserInfo } from "../server.js";
 
 const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,10}$/g;
 
-export default function LoginForm({ setAccessToken, setUser }) {
+export default function LoginForm({ setUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showErrorMessages, setShowErrorMessages] = useState({
@@ -61,7 +61,6 @@ export default function LoginForm({ setAccessToken, setUser }) {
       userLogin(
         email,
         password,
-        setAccessToken,
         getUserInfo,
         setUser,
         setDataErrorMessage

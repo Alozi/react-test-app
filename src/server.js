@@ -2,16 +2,15 @@ import axios from "axios";
 
 const API_URL = "https://dummy-api.d0.acom.cloud/api/auth/";
 
-export async function userLogin(email, password, setAccessToken, getUserInfo, setUser, setDataErrorMessage) {
+export async function userLogin(email, password, getUserInfo, setUser, setDataErrorMessage) {
     axios
         .post(`${API_URL}login?email=${email}&password=${password}`)
         .then((response) => {
-            console.log("Data:", response.data);
+            // console.log("Data:", response.data);
 
             sessionStorage.setItem('access_token', response.data.access_token);
-
-            setAccessToken(response.data.access_token);
-            getUserInfo(response.data.access_token, setUser);
+            // setAccessToken(response.data.access_token);
+            getUserInfo(setUser);
         })
         .catch((error) => {
             console.error("Error:", error);
@@ -36,45 +35,38 @@ export async function userLogin(email, password, setAccessToken, getUserInfo, se
         });
 }
 
-export async function getUserInfo(accessToken, setUser) {
-    try {
-        axios
-            .get(`${API_URL}user-profile`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            })
-            .then((response) => {
-                console.log("Data:", response.data);
-
-                setUser(() => {
-                    return {
-                        name: response.data.name,
-                        email: response.data.email,
-                        profileImage: response.data.profile_image,
-                    };
-                });
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-export async function userLogout(accessToken, setUser, setIsUserAuthorized) {
-    console.log("userLogout");
-    console.log(accessToken);
-
+export async function getUserInfo(setUser) {
     axios
-        .post(`${API_URL}logout`, {}, {
+        .get(`${API_URL}user-profile`, {
             headers: {
-                Authorization: `Bearer ${accessToken}`,
+                Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
             },
         })
         .then((response) => {
-            console.log("Data:", response.data);
+            // console.log("Data:", response.data);
+
+            setUser(() => {
+                return {
+                    name: response.data.name,
+                    email: response.data.email,
+                    profileImage: response.data.profile_image,
+                };
+            });
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+}
+
+export async function userLogout(setUser, setIsUserAuthorized) {
+    axios
+        .post(`${API_URL}logout`, {}, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+            },
+        })
+        .then((response) => {
+            // console.log("Data:", response.data);
 
             setUser(() => {
                 return {

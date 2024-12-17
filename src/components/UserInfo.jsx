@@ -7,7 +7,6 @@ import iconLogout from "../logout-icon.svg";
 import { getUserInfo, userLogout } from "../server.js";
 
 export default function UserInfo({
-  accessToken,
   setUser,
   name,
   email,
@@ -15,12 +14,11 @@ export default function UserInfo({
   setIsUserAuthorized,
 }) {
   useEffect(() => {
-    getUserInfo(accessToken, setUser);
+    getUserInfo(setUser);
   }, []);
 
   function handleClick() {
-    console.log("test");
-    userLogout(accessToken, setUser, setIsUserAuthorized);
+    userLogout(setUser, setIsUserAuthorized);
   }
 
   return (
