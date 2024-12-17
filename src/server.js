@@ -7,6 +7,9 @@ export async function userLogin(email, password, setAccessToken, getUserInfo, se
         .post(`${API_URL}login?email=${email}&password=${password}`)
         .then((response) => {
             console.log("Data:", response.data);
+
+            sessionStorage.setItem('access_token', response.data.access_token);
+
             setAccessToken(response.data.access_token);
             getUserInfo(response.data.access_token, setUser);
         })
@@ -34,9 +37,6 @@ export async function userLogin(email, password, setAccessToken, getUserInfo, se
 }
 
 export async function getUserInfo(accessToken, setUser) {
-    console.log("getInfo");
-    console.log(accessToken);
-
     try {
         axios
             .get(`${API_URL}user-profile`, {
@@ -49,7 +49,6 @@ export async function getUserInfo(accessToken, setUser) {
 
                 setUser(() => {
                     return {
-                        login: true,
                         name: response.data.name,
                         email: response.data.email,
                         profileImage: response.data.profile_image,
@@ -64,7 +63,7 @@ export async function getUserInfo(accessToken, setUser) {
     }
 }
 
-export async function userLogout(accessToken, setUser) {
+export async function userLogout(accessToken, setUser, setIsUserAuthorized) {
     console.log("userLogout");
     console.log(accessToken);
 
@@ -79,12 +78,15 @@ export async function userLogout(accessToken, setUser) {
 
             setUser(() => {
                 return {
-                    login: false,
                     name: '',
                     email: '',
                     profileImage: '',
                 };
             });
+
+            setIsUserAuthorized(false);
+
+            sessionStorage.removeItem('access_token');
         })
 
         .catch((error) => {

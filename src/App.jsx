@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import LoginForm from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
@@ -8,33 +8,45 @@ import UserInfo from "./components/UserInfo";
 
 function App() {
   const [accessToken, setAccessToken] = useState();
+  const [isUserAuthorized, setIsUserAuthorized] = useState(false);
   const [user, setUser] = useState({
-    login: false,
     name: "",
     email: "",
     profileImage: "",
   });
 
+  useEffect(() => {
+    console.log("sessionStorage.getItem");
+
+    if (sessionStorage.getItem("access_token")) {
+      setAccessToken(sessionStorage.getItem("access_token"));
+
+      console.log(sessionStorage.getItem("access_token"));
+
+      setIsUserAuthorized(true);
+    }
+  });
+
   return (
     <div className="App">
+      isUserAuthorized: {isUserAuthorized ? "true" : "false"}
       <header>
-        {user.login ? (
+        {isUserAuthorized ? (
           <UserInfo
             accessToken={accessToken}
             setUser={setUser}
             name={user.name}
             email={user.email}
             image={user.profileImage}
+            setIsUserAuthorized={setIsUserAuthorized}
           />
         ) : (
           <div>Please, login.</div>
         )}
-        <p className="access-token">
-          accessToken: {accessToken}
-        </p>
+        <p className="access-token">accessToken: {accessToken}</p>
       </header>
       <main>
-        {user.login ? (
+        {isUserAuthorized ? (
           <Dashboard accessToken={accessToken} />
         ) : (
           <LoginForm setAccessToken={setAccessToken} setUser={setUser} />

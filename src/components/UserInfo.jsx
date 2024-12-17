@@ -1,13 +1,26 @@
+import { useEffect } from "react";
+
 import iconProfile from "../profile-icon.svg";
 import iconEmail from "../email-icon.svg";
 import iconLogout from "../logout-icon.svg";
 
-import { userLogout } from "../server.js";
+import { getUserInfo, userLogout } from "../server.js";
 
-export default function UserInfo({ accessToken, setUser, name, email, image }) {
+export default function UserInfo({
+  accessToken,
+  setUser,
+  name,
+  email,
+  image,
+  setIsUserAuthorized,
+}) {
+  useEffect(() => {
+    getUserInfo(accessToken, setUser);
+  }, []);
+
   function handleClick() {
     console.log("test");
-    userLogout(accessToken, setUser);
+    userLogout(accessToken, setUser, setIsUserAuthorized);
   }
 
   return (
