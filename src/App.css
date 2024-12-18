@@ -132,3 +132,47 @@
     cursor: pointer;
   }
 }
+
+.dashboard {
+  padding: 0 60px;
+  width: auto;
+
+  .wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+
+    @media (min-width: 1200px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+.product-item {
+  width: 300px;
+
+  background: rgba(97, 218, 251, 0.3);
+  padding: 20px;
+  border-radius: 10px;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  h3 {
+    font-size: 22px;
+    margin: 10px 0;
+  }
+
+  p {
+    font-size: 20px;
+    margin: 10px 0;
+  }
+
+  span {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+  }
+}
