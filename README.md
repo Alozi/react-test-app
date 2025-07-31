@@ -8,4 +8,4 @@ This repository contains the implementation of a test assignment. The project wa
 
 ### `npm install`
 
-### `npm run dev`
+### `npm start`
